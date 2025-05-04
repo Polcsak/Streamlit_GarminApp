@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 import datetime
 
-# Nastavenie stránky
+# Page Setup
 st.set_page_config(page_title='Garmin Report', layout='wide', initial_sidebar_state="expanded")
 
 # Set title for Dashboard
@@ -13,6 +13,7 @@ st.markdown("---")
 
 # Sidebar Input Widgets for all graphs in Dashboard
 with st.sidebar:
+    
 
     st.title("Filter Pane")
     st.markdown("---")
@@ -23,8 +24,8 @@ with st.sidebar:
     date_selected = st.slider(
         'Select Date:',
         min_value=datetime.date(2023, 1, 1),
-        max_value=datetime.date.today(),
-        value=(datetime.date(2024, 1, 1), datetime.date.today())
+        max_value=datetime.date(2025, 4, 1),
+        value=(datetime.date(2024, 1, 1), datetime.date(2025, 1, 1))
     )
 
     # Output date parameters
@@ -32,6 +33,12 @@ with st.sidebar:
     end_date = date_selected[1]
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
+
+    st.markdown("---")
+    st.image("Garmin_logo_2006.svg.png")
+    st.text("Created by Polcsak Jakub")
+
+    
 
 # ----------------------------------------
 # Section 1: Days Summary
@@ -142,8 +149,16 @@ with control_col1:
                                                ("Total Time", "Active Time", "Maximum Heart Rate", "Average Heart Rate", "Active Calories", "Average Speed", "Maximum Speed", "Ascent", "Descent"),
                                                key="variable_select_activities")
     sport_selection_activities = st.selectbox("Select sport activity", 
-                                               ("swimming", "running", "walking", "cycling"),
+                                               ("Swimming", "Running", "Walking", "Cycling"),
                                                key="sport_select_activities")
+    display_to_value = {
+    "Swimming": "swimming",
+    "Running": "running",
+    "Walking": "walking",
+    "Cycling": "cycling"
+    }
+
+    sport_selection_activities = display_to_value[sport_selection_activities]
 
 with control_col2:
     chart_selection_activities = st.selectbox("Select the chart type (Activities)", 
